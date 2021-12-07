@@ -94,8 +94,6 @@ Status: 200 OK
 
 ### 🔐 Get admin message
 
-> You need to protect this endpoint using Auth0 and Role-Based Access Control (RBAC).
-
 ```bash
 GET /api/messages/admin
 ```

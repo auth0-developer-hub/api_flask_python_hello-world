@@ -7,7 +7,11 @@ from api.messages.messages_service import (
     get_protected_message,
     get_admin_message
 )
-from api.security.guards import authorization_guard
+from api.security.guards import (
+    authorization_guard,
+    permissions_guard,
+    admin_messages_permissions
+)
 
 bp_name = 'api-messages'
 bp_url_prefix = '/api/messages'
@@ -31,6 +35,7 @@ def protected():
 
 @bp.route("/admin")
 @authorization_guard
+@permissions_guard([admin_messages_permissions.read])
 def admin():
     return {
         "text": get_admin_message().text

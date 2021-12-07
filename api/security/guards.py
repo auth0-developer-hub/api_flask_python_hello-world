@@ -1,5 +1,6 @@
 from functools import wraps
 from http import HTTPStatus
+from types import SimpleNamespace
 
 from flask import request, g
 
@@ -15,6 +16,10 @@ invalid_request_error = {
     "error_description": "Authorization header value must follow this format: Bearer access-token",
     "message": "Unauthorized."
 }
+
+admin_messages_permissions = SimpleNamespace(
+    read="read:admin-messages"
+)
 
 
 def get_bearer_token_from_request():
@@ -53,5 +58,45 @@ def authorization_guard(function):
         g.access_token = validated_token
 
         return function(*args, **kwargs)
+
+    return decorator
+
+
+def permissions_guard(required_permissions=None):
+    def decorator(function):
+        @wraps(function)
+        def wrapper():
+            access_token = g.get("access_token")
+
+            if not access_token:
+                json_abort(401, unauthorized_error)
+                return
+
+            if required_permissions is None:
+                return function()
+
+            if not isinstance(required_permissions, list):
+                json_abort(500, {
+                    "message": "Internal Server Error"
+                })
+
+            token_permissions = access_token.get("permissions")
+
+            if not token_permissions:
+                json_abort(403, {
+                    "message": "Permission denied"
+                })
+
+            required_permissions_set = set(required_permissions)
+            token_permissions_set = set(token_permissions)
+
+            if not required_permissions_set.issubset(token_permissions_set):
+                json_abort(403, {
+                    "message": "Permission denied"
+                })
+
+            return function()
+
+        return wrapper
 
     return decorator
