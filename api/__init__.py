@@ -10,6 +10,7 @@ from flask_talisman import Talisman
 
 from api import exception_views
 from api.messages import messages_views
+from api.security.auth0_service import auth0_service
 
 
 def create_app():
@@ -17,8 +18,10 @@ def create_app():
     # Environment Variables
     ##########################################
     client_origin_url = os.environ.get("CLIENT_ORIGIN_URL")
+    auth0_audience = os.environ.get("AUTH0_AUDIENCE")
+    auth0_domain = os.environ.get("AUTH0_DOMAIN")
 
-    if not client_origin_url:
+    if not (client_origin_url and auth0_audience and auth0_domain):
         raise NameError("The required environment variables are missing. Check .env file.")
 
     ##########################################
@@ -41,6 +44,8 @@ def create_app():
              content_security_policy=csp,
              referrer_policy='no-referrer'
              )
+
+    auth0_service.initialize(auth0_domain, auth0_audience)
 
     @app.after_request
     def add_headers(response):

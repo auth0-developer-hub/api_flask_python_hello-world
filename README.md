@@ -1,12 +1,8 @@
 # Hello World API: Flask Auth0 Sample
 
-You can use this sample project to learn how to secure a simple Flask API server using Auth0.
+This Python code sample demonstrates how to implement authorization in a Flask API server using Auth0.
 
-The `starter` branch offers a working API server that exposes three public endpoints. Each endpoint returns a different type of message: public, protected, and admin.
-
-The goal is to use Auth0 to only allow requests that contain a valid access token in their authorization header to access the protected and admin data. Additionally, only access tokens that contain a `read:admin-messages` permission should access the admin data, which is referred to as [Role-Based Access Control (RBAC)](https://auth0.com/docs/authorization/rbac/).
-
-## Get Started
+## Run the Project
 
 Create a virtual environment under the root project directory:
 
@@ -46,6 +42,8 @@ Create a `.env` file under the root project directory and populate it with the f
 
 ```bash
 CLIENT_ORIGIN_URL=http://localhost:4040
+AUTH0_AUDIENCE=
+AUTH0_DOMAIN=
 ```
 
 Run the project in development mode:
@@ -76,9 +74,7 @@ Status: 200 OK
 }
 ```
 
-### 🔓 Get protected message
-
-> You need to protect this endpoint using Auth0.
+### 🔐 Get protected message
 
 ```bash
 GET /api/messages/protected
@@ -96,7 +92,7 @@ Status: 200 OK
 }
 ```
 
-### 🔓 Get admin message
+### 🔐 Get admin message
 
 > You need to protect this endpoint using Auth0 and Role-Based Access Control (RBAC).
 
