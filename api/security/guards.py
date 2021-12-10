@@ -7,13 +7,13 @@ from api.security.auth0_service import auth0_service
 from api.utils import json_abort
 
 unauthorized_error = {
-    "message": "Unauthorized."
+    "message": "Requires authentication"
 }
 
 invalid_request_error = {
     "error": "invalid_request",
     "error_description": "Authorization header value must follow this format: Bearer access-token",
-    "message": "Unauthorized."
+    "message": "Requires authentication"
 }
 
 
