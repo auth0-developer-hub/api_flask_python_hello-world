@@ -3,17 +3,17 @@ from api.messages.message import Message
 
 def get_public_message():
     return Message(
-        "The API doesn't require an access token to share this message."
+        "This is a public message."
     )
 
 
 def get_protected_message():
     return Message(
-        "The API successfully validated your access token."
+        "This is a protected message."
     )
 
 
 def get_admin_message():
     return Message(
-        "The API successfully recognized you as an admin."
+        "This is an admin message."
     )
