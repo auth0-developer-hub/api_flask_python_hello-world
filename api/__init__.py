@@ -49,7 +49,7 @@ def create_app():
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
-        response.headers['Strict-Transport-Security'] = 'max-age=31536000;includeSubDomains'
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
         return response
 
     ##########################################
@@ -70,5 +70,5 @@ def create_app():
 
     app.register_blueprint(messages_views.bp)
     app.register_blueprint(exception_views.bp)
-
+    
     return app
