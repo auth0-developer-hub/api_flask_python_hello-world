@@ -1,10 +1,10 @@
-version: "3.3"
+version: "3.8"
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile-dev
+    build: .
     image: api_flask_python_hello-world_starter
     container_name: api_flask_python_hello-world_starter
     ports:
       - 6060:6060
+    env_file:
+      - .env
