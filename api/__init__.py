@@ -26,7 +26,7 @@ def create_app():
     ##########################################
     # HTTP Security Headers
     ##########################################
-    
+
     csp = {
         'default-src': ['\'self\''],
         'frame-ancestors': ['\'none\'']

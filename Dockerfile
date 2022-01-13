@@ -1,10 +1,8 @@
 FROM python:3.8.12-slim-buster@sha256:55ef3d2132dec7f372f4d63fbec0027e23388ab072533edbba9ca213a053c9cb AS build
-RUN useradd -m developer \
-    && mkdir /app \
-    && chown -R developer:developer /app \
-    && chown -R developer:developer /home/developer/ \
-    && mkdir /packages \
-    && chown -R developer:developer /packages
+RUN useradd -m developer && groupadd auth0 \
+    && usermod -a -G auth0 developer \
+    && mkdir /app /packages \
+    && chown -R developer:auth0 /app /packages
 USER developer
 WORKDIR /app
 COPY requirements*.txt ./
@@ -17,5 +15,6 @@ FROM gcr.io/distroless/python3@sha256:eb773dd9d39f0becdab47e2ef5f1b10e2988c93a40
 WORKDIR /app
 COPY --from=build /app /app
 COPY --from=build /packages /packages
+USER 1000
 ENV PYTHONPATH=/packages
 CMD ["/packages/gunicorn/app/wsgiapp.py","api.wsgi:app"]
