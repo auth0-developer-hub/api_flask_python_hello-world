@@ -70,5 +70,5 @@ def create_app():
 
     app.register_blueprint(messages_views.bp)
     app.register_blueprint(exception_views.bp)
-    
+
     return app
