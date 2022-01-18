@@ -2,7 +2,7 @@
 instance/*
 !instance/.gitignore
 .webassets-cache
-#.env
+.env
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files
@@ -495,8 +495,8 @@ $RECYCLE.BIN/
 
 # Dockerfiles
 .dockerignore
-Dockerfile*
-docker-compose*
+Dockerfile
+docker-compose.yml
 
 .git*
 README.md

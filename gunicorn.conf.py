@@ -1,12 +1,12 @@
 import gunicorn.http.wsgi
 from functools import wraps
 from dotenv import load_dotenv
-from common.utils import get_env_var
+from common.utils import safe_get_env_var
 
 load_dotenv()
 
 wsgi_app = "api.wsgi:app"
-bind = f"0.0.0.0:{get_env_var('PORT')}"
+bind = f"0.0.0.0:{safe_get_env_var('PORT')}"
 
 def wrap_default_headers(func):
     @wraps(func)

@@ -9,13 +9,13 @@ from flask_talisman import Talisman
 from api import exception_views
 from api.messages import messages_views
 
-from common.utils import get_env_var
+from common.utils import safe_get_env_var
 
 def create_app():
     ##########################################
     # Environment Variables
     ##########################################
-    client_origin_url = get_env_var("CLIENT_ORIGIN_URL")
+    client_origin_url = safe_get_env_var("CLIENT_ORIGIN_URL")
 
     ##########################################
     # Flask App Instance
