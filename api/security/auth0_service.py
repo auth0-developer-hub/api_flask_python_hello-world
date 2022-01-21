@@ -46,7 +46,7 @@ class Auth0Service:
             json_abort(HTTPStatus.UNAUTHORIZED, {
                 "error": "invalid_token",
                 "error_description": error.__str__(),
-                "message": "Bad credentials."
+                "message": "Bad credentials"
             })
             return
 

@@ -20,26 +20,17 @@ bp = Blueprint(bp_name, __name__, url_prefix=bp_url_prefix)
 
 @bp.route("/public")
 def public():
-    return {
-        "metadata": get_public_message().metadata,
-        "text": get_public_message().text
-    }
+    return vars(get_public_message())
 
 
 @bp.route("/protected")
 @authorization_guard
 def protected():
-    return {
-        "metadata": get_protected_message().metadata,
-        "text": get_protected_message().text
-    }
+    return vars(get_protected_message())
 
 
 @bp.route("/admin")
 @authorization_guard
 @permissions_guard([admin_messages_permissions.read])
 def admin():
-    return {
-        "metadata": get_admin_message().metadata,
-        "text": get_admin_message().text
-    }
+    return vars(get_admin_message())

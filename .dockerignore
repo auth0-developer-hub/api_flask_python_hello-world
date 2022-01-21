@@ -1,12 +1,9 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/macos,windows,visualstudiocode,jetbrains+all,node,python,flask
-# Edit at https://www.toptal.com/developers/gitignore?templates=macos,windows,visualstudiocode,jetbrains+all,node,python,flask
-
 ### Flask ###
 instance/*
 !instance/.gitignore
 .webassets-cache
-#.env
+.env
 
 ### Flask.Python Stack ###
 # Byte-compiled / optimized / DLL files

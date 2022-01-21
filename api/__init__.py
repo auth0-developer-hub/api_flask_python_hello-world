@@ -2,8 +2,6 @@
 # External Modules
 ##########################################
 
-import os
-
 from flask import Flask
 from flask_cors import CORS
 from flask_talisman import Talisman
@@ -12,17 +10,15 @@ from api import exception_views
 from api.messages import messages_views
 from api.security.auth0_service import auth0_service
 
+from common.utils import safe_get_env_var
 
 def create_app():
     ##########################################
     # Environment Variables
     ##########################################
-    client_origin_url = os.environ.get("CLIENT_ORIGIN_URL")
-    auth0_audience = os.environ.get("AUTH0_AUDIENCE")
-    auth0_domain = os.environ.get("AUTH0_DOMAIN")
-
-    if not (client_origin_url and auth0_audience and auth0_domain):
-        raise NameError("The required environment variables are missing. Check .env file.")
+    client_origin_url = safe_get_env_var("CLIENT_ORIGIN_URL")
+    auth0_audience = safe_get_env_var("AUTH0_AUDIENCE")
+    auth0_domain = safe_get_env_var("AUTH0_DOMAIN")
 
     ##########################################
     # Flask App Instance
@@ -39,21 +35,26 @@ def create_app():
         'frame-ancestors': ['\'none\'']
     }
 
-    Talisman(app,
-             frame_options='DENY',
-             content_security_policy=csp,
-             referrer_policy='no-referrer'
-             )
+    Talisman(
+        app,
+        force_https=False,
+        frame_options='DENY',
+        content_security_policy=csp,
+        referrer_policy='no-referrer',
+        x_xss_protection=False,
+        x_content_type_options=True
+    )
 
     auth0_service.initialize(auth0_domain, auth0_audience)
 
     @app.after_request
     def add_headers(response):
         response.headers['X-XSS-Protection'] = '0'
-        response.headers['Cache-Control'] = 'no-store, max-age=0'
+        response.headers['Cache-Control'] = 'no-store, max-age=0, must-revalidate'
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         response.headers['Content-Type'] = 'application/json; charset=utf-8'
+        response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
         return response
 
     ##########################################
