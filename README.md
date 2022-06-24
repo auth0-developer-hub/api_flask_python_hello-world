@@ -41,6 +41,7 @@ pip install -r requirements.txt
 Create a `.env` file under the root project directory and populate it with the following content:
 
 ```bash
+PORT=6060 # Port on which the API service will run
 CLIENT_ORIGIN_URL=http://localhost:4040
 AUTH0_AUDIENCE=
 AUTH0_DOMAIN=
